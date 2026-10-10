@@ -34,20 +34,20 @@ ns-777.awsdns-33.net.
 
 ### Re-use same reource of Route53_geolocation and deployed as docker container
 #### Install docker engine on Amazon Linux 2023 and start docker compose up
-- 1. Install and start Docker
+1.  Install and start Docker
 ``` 
 sudo dnf update -y
 sudo dnf install -y docker
 sudo systemctl enable --now docker
 ```
 
-- 2. Run Docker without sudo
+2. Run Docker without sudo
 ```
 sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-- 3. Install the Compose plugin
+3. Install the Compose plugin
 ```
 sudo mkdir -p /usr/local/lib/docker/cli-plugins
 sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-$(uname -m) \
@@ -56,7 +56,7 @@ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
 ```
 
-- 4. Install a newer buildx (needed for builds)
+4. Install a newer buildx (needed for builds)
 ```
 ARCH=$(uname -m | sed 's/x86_64/amd64/; s/aarch64/arm64/')
 sudo curl -SL https://github.com/docker/buildx/releases/download/v0.19.3/buildx-v0.19.3.linux-$ARCH \
