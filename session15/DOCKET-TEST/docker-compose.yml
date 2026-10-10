@@ -1,0 +1,93 @@
+services:
+
+  productpage:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9090
+      UPSTREAM_URIS: "http://reviews-1:9090,http://reviews-2:9090,http://reviews-3:9090,http://details:9090"
+      UPSTREAM_WORKERS: 4
+      MESSAGE: "Response from productpage"
+      NAME: "productpage"
+      SERVER_TYPE: "http"
+      TIMING_50_PERCENTILE: 30ms
+      TIMING_90_PERCENTILE: 60ms
+      TIMING_99_PERCENTILE: 90ms
+      TIMING_VARIANCE: 10
+      TRACING_ZIPKIN: "http://jaeger:9411"
+    ports:
+      - "9090:9090"
+
+  reviews-1:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9090
+      MESSAGE: "Response from reviews-1"
+      NAME: "reviews-1"
+      SERVER_TYPE: "http"
+      TIMING_50_PERCENTILE: 20ms
+      TIMING_90_PERCENTILE: 30ms
+      TIMING_99_PERCENTILE: 40ms
+      TIMING_VARIANCE: 10
+      TRACING_ZIPKIN: "http://jaeger:9411"
+
+  reviews-2:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9090
+      UPSTREAM_URIS: "http://ratings:9090"
+      MESSAGE: "Response from reviews-2"
+      NAME: "reviews-2"
+      SERVER_TYPE: "http"
+      TIMING_50_PERCENTILE: 20ms
+      TIMING_90_PERCENTILE: 30ms
+      TIMING_99_PERCENTILE: 40ms
+      TIMING_VARIANCE: 10
+      TRACING_ZIPKIN: "http://jaeger:9411"
+
+  reviews-3:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9090
+      UPSTREAM_URIS: "http://ratings:9090"
+      MESSAGE: "Response from reviews-3"
+      NAME: "reviews-3"
+      SERVER_TYPE: "http"
+      TIMING_50_PERCENTILE: 20ms
+      TIMING_90_PERCENTILE: 30ms
+      TIMING_99_PERCENTILE: 40ms
+      TIMING_VARIANCE: 10
+      TRACING_ZIPKIN: "http://jaeger:9411"
+
+  details:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9090
+      MESSAGE: "Response from details"
+      NAME: "details"
+      SERVER_TYPE: "http"
+      TIMING_50_PERCENTILE: 10ms
+      TIMING_90_PERCENTILE: 20ms
+      TIMING_99_PERCENTILE: 30ms
+      TIMING_VARIANCE: 10
+      TRACING_ZIPKIN: "http://jaeger:9411"
+
+  ratings:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9090
+      MESSAGE: "Response from ratings"
+      NAME: "ratings"
+      SERVER_TYPE: "http"
+      TIMING_50_PERCENTILE: 5ms
+      TIMING_90_PERCENTILE: 10ms
+      TIMING_99_PERCENTILE: 15ms
+      TIMING_VARIANCE: 10
+      TRACING_ZIPKIN: "http://jaeger:9411"
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.32
+    environment:
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+    ports:
+      - "16686:16686"   # Jaeger UI
+      - "9411:9411"     # Zipkin collector
