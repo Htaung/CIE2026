@@ -1,0 +1,65 @@
+version: "3.3"
+services:
+
+  productpage:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9090
+      NAME: "productpage"
+      MESSAGE: "Response from productpage"
+      BODY: "Response from Productpage service"
+      UPSTREAM_URIS: "http://reviews-1:9091,http://reviews-2:9092,http://reviews-3:9093,http://details:9094"
+      UPSTREAM_BODIES: "Response from Reviews-v1 service,Response from Reviews-v2 service,Response from Reviews-v3 service,Response from Details service"
+      UPSTREAM_WORKERS: 4
+      SERVER_TYPE: "http"
+    ports:
+      - "9090:9090"
+
+  details:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9094
+      NAME: "details"
+      MESSAGE: "Response from details"
+      BODY: "Response from Details service"
+      SERVER_TYPE: "http"
+
+  reviews-1:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9091
+      NAME: "reviews-1"
+      MESSAGE: "Response from reviews-1"
+      BODY: "Response from Reviews-v1 service"
+      SERVER_TYPE: "http"
+
+  reviews-2:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9092
+      NAME: "reviews-2"
+      MESSAGE: "Response from reviews-2"
+      BODY: "Response from Reviews-v2 service"
+      UPSTREAM_URIS: "http://ratings:9095"
+      UPSTREAM_BODIES: "Response from Ratings service"
+      SERVER_TYPE: "http"
+
+  reviews-3:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9093
+      NAME: "reviews-3"
+      MESSAGE: "Response from reviews-3"
+      BODY: "Response from Reviews-v3 service"
+      UPSTREAM_URIS: "http://ratings:9095"
+      UPSTREAM_BODIES: "Response from Ratings service"
+      SERVER_TYPE: "http"
+
+  ratings:
+    image: nicholasjackson/fake-service:v0.23.1
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9095
+      NAME: "ratings"
+      MESSAGE: "Response from ratings"
+      BODY: "Response from Ratings service"
+      SERVER_TYPE: "http"
