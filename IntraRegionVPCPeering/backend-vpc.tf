@@ -168,7 +168,7 @@ resource "aws_eip" "backend_natgw_eip" {
 resource "aws_nat_gateway" "backend_ngw" {
 
   allocation_id = aws_eip.backend_natgw_eip.id
-  subnet_id     = aws_subnet.backend_private_subnet1.id
+  subnet_id     = aws_subnet.backend_pub_subnet1.id
 
   depends_on = [
     aws_eip.backend_natgw_eip
